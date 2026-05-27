@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import downloadRoutes from './routes/downloadRoutes';
 
 const app = express();
 const PORT = 3001;
@@ -13,6 +14,8 @@ app.get("/api/health", (req,res) => {
         service: "youtube-downloader-api",
     });
 });
+
+app.use("/api", downloadRoutes);
 
 app.listen(PORT, ()=> {
     console.log(`API running on http://localhost:${PORT}`);
