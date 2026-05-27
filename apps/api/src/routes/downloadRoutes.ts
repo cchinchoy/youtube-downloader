@@ -1,5 +1,7 @@
 import {Router, Request, Response} from "express";
 import { downloadRequestSchema } from "../validators/downloadValidators";
+import { createDownloadJob } from "../services/downloadService";
+
 
 const router = Router();
 
@@ -13,9 +15,11 @@ router.post ("/download", (req: Request, res: Response) => {
         });
     }
 
+    const job = createDownloadJob(result.data);
+
     res.json({
-        message: "Download request received",
-        data: result.data,
+        message: "Download job created",
+        job,
     });
 });
 
