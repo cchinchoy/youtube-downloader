@@ -1,11 +1,11 @@
 import {Router, Request, Response} from "express";
 import { downloadRequestSchema } from "../validators/downloadValidators";
-import { createDownloadJob } from "../services/downloadService";
+import { downloadVideo } from "../services/downloadService";
 
 
 const router = Router();
 
-router.post ("/download", (req: Request, res: Response) => {
+router.post ("/download",  async(req: Request, res: Response) => {
     const result = downloadRequestSchema.safeParse(req.body);
 
     if (!result.success) {
@@ -15,12 +15,9 @@ router.post ("/download", (req: Request, res: Response) => {
         });
     }
 
-    const job = createDownloadJob(result.data);
+    const downloadResult = await downloadVideo(result.data);
 
-    res.json({
-        message: "Download job created",
-        job,
-    });
+    return res.json(downloadResult);
 });
 
 export default router;
